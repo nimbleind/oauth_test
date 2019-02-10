@@ -39,20 +39,14 @@ class App < Sinatra::Base
     client.auth_code.get_token(params[:code], :redirect_uri => 'http://localhost:9292/oauth/callback').token
   end
 
-  def connection
-    @connection ||= Faraday.new(url: 'http://localhost:3000') do |req|
-      req.headers['Authorization'] = "Bearer #{session['token']}"
-    end
-  end
-
   def ping
-    uri = URI("http://localhost:3000/api/v1/ping")
+    uri = URI("#{ENV['STATUSGATOR_API_ROOT']}/api/v1/ping")
     req = Net::HTTP::Get.new(uri)
     req['Authorization'] = "Bearer #{session['token']}"
 
-    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
       http.request(req)
-    }
+    end
 
     if res.code == "200"
       res.body

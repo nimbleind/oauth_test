@@ -7,8 +7,10 @@ StatusGator.
 
 Assuming SG runs locally at `http://localhost:3000`
 
-* As an admin go to `/oauth/applications` in StatusGator.  
+* Run `bundle`
+* As an admin go to `/oauth/applications` in StatusGator.
 * Create yourself an application.
+* Set 'http://localhost:9292/oauth/callback' as a Redirect URI
 * Assign the Application UID to `STATUSGATOR_OAUTH_ID` in `.env.local`
 * Assign the Secret to `STATUSGATOR_OAUTH_SECRET` in `.env.local`
 * Run `rackup`
@@ -22,4 +24,3 @@ Unless you ran into problems.
 
 
 Good luck.
-
